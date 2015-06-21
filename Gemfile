@@ -43,6 +43,8 @@ group :development, :test do
   gem 'spring'
 
   gem 'rspec-rails', '~> 3.0'
+
+  gem 'factory_girl_rails' # :development to help out in rails generators
 end
 
 group :test do
