@@ -63,8 +63,8 @@ RSpec.describe 'UsualSuspects' do
         original_file.close false
         replacement_file.close false
       end
+
       it 'overwrites file x with file y' do
-        puts original_file.path, replacement_file.path
         replace_file(replacement_file.path, original_file.path)
 
         expect(File.read(original_file.path)).to eq 'replace with me'
@@ -75,25 +75,38 @@ RSpec.describe 'UsualSuspects' do
   describe 'tasks' do
     describe 'rename_application' do
       subject(:task) { @rake["usual_suspects:rename_application"] }
-      it 'requires a new name to be specified' do
-        expect{task.invoke}.to raise_error
+      context 'with no specified name' do
+        it 'raises an error' do
+          task.reenable
+          expect{task.invoke}.to raise_error ArgumentError
+        end
       end
+
       let(:new_name) { 'TootinPutin' }
-      it 'changes the title in application.html.erb' do
+
+      before(:each) do
         task.invoke(new_name)
+      end
+      it 'changes the title in application.html.erb' do
         fname = 'app/views/layouts/application.html.erb'
         expect(exists_in_file?(fname, 'UsualSuspects')).to be_falsey
       end
+
+      it 'changes the key in the session store' do
+        fname = 'config/initializers/session_store.rb'
+        expect(exists_in_file?(fname, 'usual_suspects')).to be_falsey
+        expect(exists_in_file?(fname, 'tootin_putin')).to be true
+      end
+
       it 'changes the title in application.rb' do
-        task.invoke(new_name)
-        fname = 'config/application.erb'
+        fname = 'config/application.rb'
         expect(exists_in_file?(fname, 'UsualSuspects')).to be_falsey
         expect(exists_in_file?(fname, new_name)).to be true
       end
-
     end
 
     def exists_in_file?(fname, string)
+      raise unless File.exists? fname
       File.open(fname).grep(/#{string}/).length > 0
     end
   end

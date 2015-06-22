@@ -3,27 +3,24 @@ require 'tempfile'
 require 'fileutils'
 namespace :usual_suspects do
 
-  task :turn_off_alarm do
-    puts "Turned off alarm. Would have liked 5 more minutes, though."
-  end
-
   desc 'rename the application from UsualSupects to a specified camel-cased new name'
   task :rename_application, :new_name do |t, args|
     new_name = args[:new_name]
-    byebug
-    raise "Specify a new name for the application!" if new_name.nil?
+    raise ArgumentError, "Specify a new name for the application!" if new_name.nil?
     
-    LIST_OF_FILES.each do |fname|
+    list_of_files.each do |fname|
       find_and_replace_in_file(fname, 'UsualSuspects', new_name)
       find_and_replace_in_file(fname, underscore('UsualSuspects'), underscore(new_name))
     end
   end
 
-  LIST_OF_FILES = [
-    'app/views/layouts/application.html.erb',
+  def list_of_files 
+  [
     'config/application.rb',
+    'app/views/layouts/application.html.erb',
     'config/initializers/session_store.rb'
   ]
+  end
 
   def find_and_replace_in_file(fname, find, replace)
     file_path = File.expand_path fname
