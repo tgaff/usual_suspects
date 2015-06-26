@@ -4,8 +4,13 @@ require 'byebug'
 require 'tempfile'
 
 RSpec.describe 'UsualSuspects' do
+  before(:all) do
+    unless git_is_clean?
+      raise 'you must clean or commit all changes before running the renamer tests'
+    end
+  end
 
- before do
+  before(:each) do
     @rake = Rake::Application.new
     Rake.application = @rake
 
@@ -16,9 +21,10 @@ RSpec.describe 'UsualSuspects' do
     #Rake.application.rake_require '../lib/tasks/usual_suspects'
   end
 
- after do
+ after(:each) do
    Rake.application = nil
  end
+
  describe 'rake task methods' do
     describe '.substitute' do
       let(:initial_text) { "this has an xx but should have a yy" }
@@ -112,3 +118,6 @@ RSpec.describe 'UsualSuspects' do
   end
 end
 
+  def git_is_clean?
+    `git status --porcelain`.empty? ? true : false
+  end
