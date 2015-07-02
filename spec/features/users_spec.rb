@@ -6,7 +6,7 @@ RSpec.feature "User sign-in" do
   end
 
 
-  scenario "a sign-in dialog is present", js: true do
+  scenario "a sign-in dialog is present" do
     visit user_session_path
 
     expect(page).to have_button 'Log in'
@@ -15,6 +15,7 @@ RSpec.feature "User sign-in" do
     expect(page).to have_field 'Password'
   end
 
+  # note, we don't need JS here, but I want to see that poltergeist works in at least one test
   scenario "allows an existing user to sign-in", js: true do
     user = FactoryGirl.create(:user)
     visit user_session_path
@@ -33,7 +34,7 @@ RSpec.feature "User sign-up" do
   given(:user) { FactoryGirl.create(:user) }
   given(:new_email) { FactoryGirl.generate :email }
 
-  scenario "has a sign-up form", js: true do
+  scenario "has a sign-up form" do
     visit new_user_registration_path
 
     expect(page).to have_link 'Log in'
@@ -42,7 +43,7 @@ RSpec.feature "User sign-up" do
     expect(page).to have_field 'Password confirmation'
   end
 
-  scenario "allows a user to create an account", js: true do
+  scenario "allows a user to create an account" do
     visit new_user_registration_path
     fill_in 'Email', with: new_email
     fill_in 'Password', with: '12345678'
