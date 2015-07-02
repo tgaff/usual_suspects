@@ -7,8 +7,10 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/rspec'
+require 'capybara/poltergeist'
 require 'shoulda/matchers'
-# Add additional requires below this line. Rails is not loaded until this point!
+
+Capybara.javascript_driver = :poltergeist
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
@@ -53,5 +55,4 @@ RSpec.configure do |config|
   # https://relishapp.com/rspec/rspec-rails/docs
   config.infer_spec_type_from_file_location!
   config.include Devise::TestHelpers, type: :controller
-
 end
