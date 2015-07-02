@@ -24,7 +24,22 @@ RSpec.feature "User sign-in" do
     click_on 'Log in'
 
     # there's not much to test here until we have a page to redirect to on sign-in
-    expect(page).to have_field('Password', with: '')
+    #expect(page).to have_field('Password', with: '')
+    expect(page).to have_content 'Welcome aboard'
+    expect(User.last.confirmed_at).to_not eq nil
+  end
+
+  scenario 'when the user is unconfirmed sign-in is prevented' do
+    user = FactoryGirl.create(:unconfirmed_user)
+    visit user_session_path
+    fill_in 'Email', with: user.email
+    fill_in 'Password', with: user.password
+    click_on 'Log in'
+
+    # there's not much to test here until we have a page to redirect to on sign-in
+    expect(page).to have_field('Password')
+    expect(page).to have_no_content 'Welcome aboard'
+    expect(User.last.confirmed_at).to eq nil
   end
 
 end
