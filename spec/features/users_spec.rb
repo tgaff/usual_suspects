@@ -15,7 +15,6 @@ RSpec.feature "User sign-in" do
     expect(page).to have_field 'Password'
   end
 
-  # note, we don't need JS here, but I want to see that poltergeist works in at least one test
   scenario "allows an existing user to sign-in" do
     user = FactoryGirl.create(:user)
     visit user_session_path
@@ -23,8 +22,6 @@ RSpec.feature "User sign-in" do
     fill_in 'Password', with: user.password
     click_on 'Log in'
 
-    # there's not much to test here until we have a page to redirect to on sign-in
-    #expect(page).to have_field('Password', with: '')
     expect(page).to have_content 'Usual Suspects'
     expect(page).to have_content user.email
     expect(User.last.confirmed_at).to_not eq nil
@@ -48,7 +45,7 @@ end
 
 RSpec.feature "User sign-up" do
   given(:user) { FactoryGirl.create(:user) }
-  given(:new_email) { FactoryGirl.generate :email }
+  given(:new_email) { 'lalala@example.com' }
 
   scenario "has a sign-up form" do
     visit new_user_registration_path

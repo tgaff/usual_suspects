@@ -11,6 +11,12 @@
   <%= render 'devise/menu/registration_items' %>
   <%= render 'devise/menu/login_items' %>
 </ul>
+<% flash.each do |name, msg| %>
+  <% msg = [msg] unless msg.class == Array %>
+    <% msg.each do |message| %>
+      <%= content_tag :div, message, :id => "flash_#{name}" %>
+    <% end %>
+  <% end %>
 <%= yield %>
 
 </body>
