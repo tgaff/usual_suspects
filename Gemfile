@@ -53,4 +53,5 @@ group :test do
   gem 'shoulda-matchers', require: false
   gem 'capybara'
   gem 'poltergeist'
+  gem 'database_cleaner'
 end

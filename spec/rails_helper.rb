@@ -9,6 +9,7 @@ require 'capybara/rails'
 require 'capybara/rspec'
 require 'capybara/poltergeist'
 require 'shoulda/matchers'
+require 'database_cleaner'
 
 Capybara.javascript_driver = :poltergeist
 
@@ -56,4 +57,21 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.include Devise::TestHelpers, type: :controller
   config.include Devise::TestHelpers, type: :view
+
+
+  config.use_transactional_fixtures = false
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:truncation)
+  end
+
+  config.before(:each) do |example|
+    DatabaseCleaner.strategy= example.metadata[:js] ? :truncation : :transaction
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
 end

@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature "User sign-in" do
+# note JS is not required for these but we want to make sure that async specs are setup correctly
+RSpec.feature "User sign-in", :js do
   background do
     # use this BDD syntax in feature specs
   end
@@ -43,7 +44,7 @@ RSpec.feature "User sign-in" do
 end
 
 
-RSpec.feature "User sign-up" do
+RSpec.feature "User sign-up", js: true do
   given(:user) { FactoryGirl.create(:user) }
   given(:new_email) { 'lalala@example.com' }
 
