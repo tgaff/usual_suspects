@@ -16,7 +16,7 @@ RSpec.feature "User sign-in" do
   end
 
   # note, we don't need JS here, but I want to see that poltergeist works in at least one test
-  scenario "allows an existing user to sign-in", js: true do
+  scenario "allows an existing user to sign-in" do
     user = FactoryGirl.create(:user)
     visit user_session_path
     fill_in 'Email', with: user.email
@@ -25,7 +25,8 @@ RSpec.feature "User sign-in" do
 
     # there's not much to test here until we have a page to redirect to on sign-in
     #expect(page).to have_field('Password', with: '')
-    expect(page).to have_content 'Welcome aboard'
+    expect(page).to have_content 'Usual Suspects'
+    expect(page).to have_content user.email
     expect(User.last.confirmed_at).to_not eq nil
   end
 
@@ -63,9 +64,8 @@ RSpec.feature "User sign-up" do
     fill_in 'Email', with: new_email
     fill_in 'Password', with: '12345678'
     fill_in 'Password confirmation', with: '12345678'
-    pending('without a root route to redirect to, this raises') # TODO: remove once a root route is established
     click_on 'Sign up'
-    expect(page).to have_content 'Catchy slogan'
+    expect(page).to have_content 'Usual Suspects'
     expect(User.last.email).to eq new_email
   end
 end
