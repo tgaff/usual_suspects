@@ -54,6 +54,8 @@ group :development, :test do
 
   gem 'factory_girl_rails' # :development to help out in rails generators
   gem 'pry-byebug'
+  gem 'pry-rails'
+  # OR gem 'jazz_hands' ?
 end
 
 group :test do
