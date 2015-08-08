@@ -1,28 +1,10 @@
 == README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+The Usual Suspects, a collection of Rails and commonly used Gems to use as a template for new apps.
 
-Things you may want to cover:
+== renaming
 
-* Ruby version
+One can rename the app via `rake usual_suspects:rename_application['MyAppName']
 
-* System dependencies
+This makes the required rails changes.
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
-
-
-Please feel free to use a different markup language if you do not plan to run
-<tt>rake doc:app</tt>.
