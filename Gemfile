@@ -56,6 +56,7 @@ group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   # OR gem 'jazz_hands' ?
+  gem "parallel_tests"
 end
 
 group :test do
